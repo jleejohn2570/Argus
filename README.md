@@ -31,8 +31,8 @@ This tool will take a while to run depending on the size of your target.
 ### Required
 
 - **Go** (1.21+) — [https://go.dev/dl/](https://go.dev/dl/)
-- **curl**, **jq**, **whois**, **dig** — installed automatically if missing (via `apt`)
-- **nmap** — installed automatically if missing
+- **curl**, **jq**, **whois**, **dig** — installed via setup.sh script if not installed
+- **nmap** — installed automatically if missing vis setup.sh script
 
 ### Auto-installed Go tools
 
@@ -59,6 +59,7 @@ The script will automatically install any missing tools using `go install`:
 git clone https://github.com/jleejohn2570/Argus.git
 cd Argus
 chmod +x argus.sh
+chmod +x setup.sh
 ```
 
 Ensure `~/go/bin` is in your `PATH`:
