@@ -36,7 +36,7 @@ This tool will take a while to run depending on the size of your target.
 
 ### Auto-installed Go tools
 
-The script will automatically install any missing tools using `go install`:
+The script will automatically install any missing tools using go install contained in the setup.sh script:
 
 | Tool | Source |
 |------|--------|
