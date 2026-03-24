@@ -38,8 +38,6 @@ The script will automatically install any missing tools using go install contain
 |------|--------|
 | `subfinder` | projectdiscovery/subfinder |
 | `assetfinder` | tomnomnom/assetfinder |
-| `naabu` | projectdiscovery/naabu |
-| `nuclei` | projectdiscovery/nuclei |
 | `httpx` | projectdiscovery/httpx |
 | `dnsx` | projectdiscovery/dnsx |
 | `katana` | projectdiscovery/katana |
