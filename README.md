@@ -1,9 +1,9 @@
 # Argus
 My attempt at a red team recon framework.
 
-A modular, automated external reconnaissance framework for authorized red team engagements. Chains together open source tooling to perform subdomain enumeration, live host discovery, port scanning, vulnerability scanning, technology fingerprinting, and OSINT — then writes everything to a structured Markdown report.
+A modular, automated external reconnaissance framework for authorized red team engagements. Chains together open source tooling to perform subdomain enumeration, live host discovery, technology fingerprinting, and OSINT — then writes everything to a structured Markdown report.
 
-This tool will take a while to run depending on the size of your target. 
+This tool is designed to give you a lay of the land quickly, but use your judgment to seek out other resources to find available information. This should not be used as the final source of truth. 
 
 > **Legal Notice:** This tool is intended for use only against systems you own or have explicit written authorization to test. Unauthorized use is illegal and unethical.
 
@@ -15,9 +15,6 @@ This tool will take a while to run depending on the size of your target.
 - **Live host discovery** and **technology fingerprinting** via `httpx`
 - **DNS resolution** via `dnsx`
 - **Cloud/CDN filtering** — skips AWS, GCP, Azure, Cloudflare, Akamai, and Fastly-hosted infrastructure to reduce noise and stay in scope
-- **Port scanning** via `naabu` (top 100 ports)
-- **Service detection** via `nmap`
-- **Vulnerability scanning** via `nuclei` (high/critical CVEs, misconfigs, exposures)
 - **Endpoint and JS discovery** via `katana`
 - **Screenshot capture** via `gowitness`
 - **Azure tenant discovery** via OpenID configuration lookup
@@ -32,7 +29,6 @@ This tool will take a while to run depending on the size of your target.
 
 - **Go** (1.21+) — [https://go.dev/dl/](https://go.dev/dl/)
 - **curl**, **jq**, **whois**, **dig** — installed via setup.sh script if not installed
-- **nmap** — installed automatically if missing vis setup.sh script
 
 ### Auto-installed Go tools
 
@@ -114,11 +110,6 @@ recon-example.com/
 │   ├── live_hosts.txt       # Bare hostnames
 │   ├── resolved_hosts.txt   # Hosts with resolved IPs
 │   └── scan_targets.txt     # Non-CDN hosts eligible for scanning
-├── ports/
-│   └── ports.txt            # Naabu port scan results
-├── scans/
-│   ├── vulns.txt            # Nuclei vulnerability findings
-│   └── services.txt         # Nmap service detection
 ├── tech/
 │   └── technologies.txt     # Technology fingerprinting results
 ├── js/
@@ -139,18 +130,10 @@ At the end of each run, the framework generates `recon-<domain>/report.md` conta
 
 - Scan date and total runtime
 - Subdomain and live host counts
-- Open ports
 - Detected technologies
-- Nuclei vulnerability findings
-- Sample of discovered endpoints
-
----
-
-## Scope and Cloud Filtering
-
-Before port scanning and vulnerability scanning, the framework queries [ipinfo.io](https://ipinfo.io) to identify hosts belonging to major cloud and CDN providers (AWS, GCP, Azure, Cloudflare, Akamai, Fastly) and excludes them from active scanning. This helps avoid out-of-scope infrastructure and reduces false positives.
-
-Skipped hosts are logged to stdout with the reason. Only hosts that resolve to non-cloud IPs are written to `hosts/scan_targets.txt`.
+- Non-cloud targets
+- Entra Tenant Information
+- DNS Records
 
 ---
 
@@ -165,11 +148,6 @@ curl -s "https://crt.sh/?q=%.example.com&output=json" | head -c 200
 **Tools not found after install**
 Ensure `~/go/bin` is in your `PATH`. Run `export PATH=$PATH:$HOME/go/bin` or add it to your shell profile.
 
-**Nuclei template errors**
-The script runs `nuclei -ut` at startup to update templates. If this fails, update manually:
-```bash
-nuclei -update-templates
-```
 
 **Screenshots directory is empty**
 `gowitness` requires a working Chrome or Chromium installation. Install it with:
