@@ -126,22 +126,22 @@ fi
 scancount=$(wc -l < hosts/scan_targets.txt || echo 0)
 echo -e "${GREEN}[+] Non-cloud targets identified: $scancount${NC}"
 
-# --- Azure Tenant Discovery ---
-echo -e "${BLUE}[+] Azure tenant discovery...${NC}"
-azure_oidc=$(curl -s --max-time 10 "https://login.microsoftonline.com/$domain/.well-known/openid-configuration" || echo "{}")
-if echo "$azure_oidc" | jq -e '.token_endpoint' >/dev/null 2>&1; then
-  tenant_id=$(echo "$azure_oidc" | jq -r '.token_endpoint' | grep -oP '[0-9a-f-]{36}' | head -1)
-  issuer=$(echo "$azure_oidc" | jq -r '.issuer // "N/A"')
-  echo -e "${GREEN}[+] Azure tenant found: $tenant_id${NC}"
+# --- Entra Tenant Discovery ---
+echo -e "${BLUE}[+] Entra tenant discovery...${NC}"
+entra_oidc_oidc=$(curl -s --max-time 10 "https://login.microsoftonline.com/$domain/.well-known/openid-configuration" || echo "{}")
+if echo "$entra_oidc" | jq -e '.token_endpoint' >/dev/null 2>&1; then
+  tenant_id=$(echo "$entra_oidc" | jq -r '.token_endpoint' | grep -oP '[0-9a-f-]{36}' | head -1)
+  issuer=$(echo "$entra_oidc" | jq -r '.issuer // "N/A"')
+  echo -e "${GREEN}[+] Entra tenant found: $tenant_id${NC}"
   {
     echo "Tenant ID : $tenant_id"
     echo "Issuer    : $issuer"
     echo ""
-    echo "$azure_oidc" | jq .
-  } > osint/azure_tenant.txt
+    echo "$entra_oidc" | jq .
+  } > osint/entra_tenant.txt
 else
-  echo -e "${YELLOW}[*] No Azure tenant detected for $domain${NC}"
-  echo "No Azure tenant detected." > osint/azure_tenant.txt
+  echo -e "${YELLOW}[*] No Entra tenant detected for $domain${NC}"
+  echo "No Entra tenant detected." > osint/entra_tenant.txt
 fi
 
 # --- OSINT: WHOIS & DNS ---
@@ -190,9 +190,9 @@ report="report.md"
   echo "- Non-cloud targets: $scancount"
   echo "- Technologies identified: $techcount"
   echo ""
-  echo "## Azure Tenant"
+  echo "## Entra Tenant"
   echo '```'
-  cat osint/azure_tenant.txt
+  cat osint/entra_tenant.txt
   echo '```'
   echo ""
   echo "## DNS Records"
