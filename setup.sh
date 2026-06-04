@@ -30,4 +30,14 @@ for tool in "${go_tools[@]}"; do
     go install "$tool"
 done
 
+echo -e "${YELLOW}Installing Go binaries to /usr/local/bin...${NC}"
+
+GOBIN_DIR="${GOBIN:-$HOME/go/bin}"
+
+for binary in "$GOBIN_DIR"/*; do
+    if [ -f "$binary" ]; then
+        sudo install -m 755 "$binary" /usr/local/bin/
+    fi
+done
+
 echo -e "${GREEN}[+ Setup Complete! Ensure ~/go/bin is in your PATH. ]${NC}"
