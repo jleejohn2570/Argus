@@ -128,7 +128,7 @@ echo -e "${GREEN}[+] Non-cloud targets identified: $scancount${NC}"
 
 # --- Entra Tenant Discovery ---
 echo -e "${BLUE}[+] Entra tenant discovery...${NC}"
-entra_oidc_oidc=$(curl -s --max-time 10 "https://login.microsoftonline.com/$domain/.well-known/openid-configuration" || echo "{}")
+entra_oidc=$(curl -s --max-time 10 "https://login.microsoftonline.com/$domain/.well-known/openid-configuration" || echo "{}")
 if echo "$entra_oidc" | jq -e '.token_endpoint' >/dev/null 2>&1; then
   tenant_id=$(echo "$entra_oidc" | jq -r '.token_endpoint' | grep -oP '[0-9a-f-]{36}' | head -1)
   issuer=$(echo "$entra_oidc" | jq -r '.issuer // "N/A"')
