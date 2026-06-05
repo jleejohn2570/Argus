@@ -27,7 +27,7 @@ This tool is designed to give you a lay of the land quickly, but use your judgme
 
 ### Required
 
-- **Go** (1.21+) — [https://go.dev/dl/](https://go.dev/dl/)
+- **Go** (1.21+) — [https://go.dev/dl/](https://go.dev/dl/) - will automatically be installed via setup script if not installed.
 - **curl**, **jq**, **whois**, **dig** — installed via setup.sh script if not installed
 
 ### Auto-installed Go tools
